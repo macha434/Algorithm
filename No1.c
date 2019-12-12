@@ -39,7 +39,7 @@ int main(){
 
     while(1){
         printf("\n\nMODE SELECT\n");
-        printf("1:Register, 2:Produt Add, 3:Price Change, 4:Check money, 5:poweroff : ");
+        printf("1:Register, 2:Produt Add, 3:Price Change, 4:Check money, 5:poweroff, 6:Reset : ");
         scanf("%d", &i);
 
         switch (i){
@@ -48,7 +48,7 @@ int main(){
                 break;
 
             case 2:
-                Product_Add(root, product);
+                Product_Add(root);
                 break;
 
             case 3:
@@ -60,12 +60,16 @@ int main(){
                 break;
 
             case 5:
-                Poweroff(product, mon);
+                Poweroff(root);
+                break;
+
+            case 6:
+                format();
                 break;
 
             default:
                 printf("error");
-                Poweroff(product, mon);
+                Poweroff(root);
                 exit(1);
         }
     }
@@ -73,9 +77,52 @@ int main(){
     return 0;
 }
 
+void check_setup(void){
+
+	int check;
+	FILE *check_setupfile;
+
+	check_setupfile = fopen("setup.txt", "r");
+	if(check_setupfile == NULL) {
+		printf("OK\n");
+		check_setupfile = fopen("setup.txt", "w");
+		fprintf(check_setupfile, "0\n");
+		fclose(check_setupfile);
+		check_setupfile = fopen("setup.txt", "r");
+	}
+	fscanf(check_setupfile, "%d", &check);
+	fclose(check_setupfile);
+
+	printf("%d",check);
+
+	if(check==0){
+        Set_Up();
+        return;
+	}else if(check==1){
+		return;
+	}else{
+		printf("Error\n");
+		exit(0);
+	}
+}
+
+
 void Set_Up(struct data *product, struct money mon[]){
 
     Product_Add(product);
+
+	FILE *fpw = fopen("struct.dat", "wb");
+	fwrite(&set, sizeof(set), 1, fpw);
+	fclose(fpw);
+
+	FILE *setupfile;
+	setupfile = fopen("setup.txt", "w");
+	if(setupfile == NULL) {
+		printf("cannot open\n");
+		exit(1);
+	}
+	fprintf(setupfile, "1\n");
+	fclose(setupfile);
 
     strcpy(mon[0].money_name, "one");
     strcpy(mon[1].money_name, "five");
@@ -149,13 +196,23 @@ void Check_Money(){
     return;
 }
 
-void Poweroff(struct data *root, struct data *product){
+void Poweroff(struct data *root){
 
     root -> prev -> next = NULL;
 
-    for(product = root; product != NULL; product = product -> next){
-        free(product);
+    for(; root != NULL; root = root -> next){
+        free(root);
     }
 
     exit (0);
+}
+
+void format(struct data *root){
+	FILE *format_setup;
+
+	format_setup = fopen("setup.txt", "w");
+	fprintf(formar_file, "0\n");
+	fclose(format_setup);
+
+    poweroff(root);
 }

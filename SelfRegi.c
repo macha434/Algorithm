@@ -23,7 +23,7 @@ int check_setup(void){
 	fclose(check_setupfile);
 
 	printf("%d",check);
-	
+
 	if(check==0){
 		return 0;
 	}else if(check==1){
@@ -35,7 +35,7 @@ int check_setup(void){
 }
 
 void setup(void){
-	
+
 	struct regi set[100] = {
 		{"おにぎり", 150, 30},
 		{"緑茶", 100, 20},
@@ -57,7 +57,7 @@ void setup(void){
 }
 
 void accounting(int a){
-	
+
 	if(a==1){
 		printf("1!\n");
 	}
@@ -77,20 +77,6 @@ void stock(int s){
 	print = stock;
 	for(i=0; i<3; i++){
 	printf("%s, %d, %d\n", (print+i)->name, (print+i)->price, (print+i)->stock);
-	}
-}
-
-void balance(int b){
-
-	if(b==1){
-		printf("3!\n");
-	}
-}
-
-void record(int r){
-
-	if(r==1){
-		printf("4!\n");
 	}
 }
 
