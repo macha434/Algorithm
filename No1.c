@@ -6,7 +6,7 @@
 void Check_setup();
 void Set_Up();
 void Register();
-void Product_Add();
+struct data *Product_Add();
 void Price_Change();
 void Check_Money();
 void Poweroff();
@@ -18,7 +18,6 @@ struct data{
     int price;
     int stock;
     struct data *next;
-    struct data *prev;
 };
 
 struct money{
@@ -30,13 +29,15 @@ int main(){
 
     int i;
 
-    struct data *root;
+    struct data *head;
     struct data *product;
+    struct data *tail;
     struct money mon[8];
 
-    root = (struct data *) malloc (sizeof (struct data));
+    head = (struct data *) malloc (sizeof (struct data));
 
-    product = root;
+    product = head;
+    tail = head;
 
     Check_setup(product, mon);
 
@@ -47,15 +48,15 @@ int main(){
 
         switch (i){
             case 1:
-                Register(product);
+                Register(head);
                 break;
 
             case 2:
-                Product_Add(root);
+                tail = Product_Add(tail);
                 break;
 
             case 3:
-                Price_Change(product);
+                Price_Change(head);
                 break;
 
             case 4:
@@ -63,16 +64,17 @@ int main(){
                 break;
 
             case 5:
-                Poweroff(root);
+                Poweroff(head -> next);
                 break;
 
             case 6:
-                Format(root);
+                Format();
+                Poweroff(head -> next);
                 break;
 
             default:
                 printf("error");
-                Poweroff(root);
+                Poweroff(head);
                 exit(1);
         }
     }
@@ -80,14 +82,13 @@ int main(){
     return 0;
 }
 
-void Check_setup(void){
+void Check_setup(struct data *product, struct money mon[]){
 
     int check;
     FILE *check_setupfile;
 
     check_setupfile = fopen("setup.txt", "r");
     if(check_setupfile == NULL) {
-        printf("OK\n");
         check_setupfile = fopen("setup.txt", "w");
         fprintf(check_setupfile, "0\n");
         fclose(check_setupfile);
@@ -96,10 +97,8 @@ void Check_setup(void){
     fscanf(check_setupfile, "%d", &check);
     fclose(check_setupfile);
 
-    printf("%d",check);
-
     if(check==0){
-        Set_Up();
+        Set_Up(product, mon);
         return;
     }else if(check==1){
         return;
@@ -137,15 +136,9 @@ void Set_Up(struct data *product, struct money mon[]){
     strcpy(mon[7].money_name, "five thousand");
     strcpy(mon[8].money_name, "ten thousand");
 
-    printf("1");
-
     for (int i = 0; i < 8; i++){
-
-        printf("How Many %s Yen : ", mon[i].money_name);
-        scanf("%d", &mon[i].money_num);
+        mon[i].money_num = 10;
     }
-
-    Print_Product(product);
 
     return;
 }
@@ -154,23 +147,22 @@ void Register(){
     return;
 }
 
-void Product_Add(struct data *product){
+struct data *Product_Add(struct data *product){
 
     int price;
     int stock;
     char name[20];
     int i;
-    struct data *stor = product ;
+    struct data *head = product ;
+    struct data *tail;
 
     while (1){
 
         product -> next = (struct data *) malloc (sizeof (struct data));
-        product -> next -> prev = product;
         product = product -> next;
 
         printf("Input Product Name : ");
         scanf("%s", name);
-        printf("\n");
 
         printf("Input Product Value : ");
         scanf("%d", &price);
@@ -189,12 +181,13 @@ void Product_Add(struct data *product){
         if (i == 2) break;
     }
 
-    product -> next = stor;
-    stor -> prev = product;
+    product -> next = NULL;
 
-    /* Print_Product(stor); */
+    Print_Product(head -> next);
 
-    return;
+    tail = product;
+
+    return tail;
 }
 
 void Price_Change(){
@@ -206,8 +199,6 @@ void Check_Money(){
 }
 
 void Poweroff(struct data *root){
-
-    root -> prev -> next = NULL;
 
     for(; root != NULL; root = root -> next){
         free(root);
@@ -228,12 +219,9 @@ void Format(struct data *root){
 
 void Print_Product(struct data *root){
 
+    for(int i = 1; root != NULL; root = root -> next, i++){
 
-    struct data *product = root;
-
-    for(int i = 0; product != root; product = product -> next, i++){
-
-        printf("%d , Name %s , Price %d , Stock %d\n", i, product -> name, product -> price, product -> stock);
+        printf("%d , Name %s , Price %d , Stock %d\n", i, root -> name, root -> price, root -> stock);
 
     }
 
