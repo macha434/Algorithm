@@ -23,7 +23,7 @@ int check_setup(void){
 	fclose(check_setupfile);
 
 	printf("%d",check);
-	
+
 	if(check==0){
 		return 0;
 	}else if(check==1){
@@ -35,7 +35,7 @@ int check_setup(void){
 }
 
 void setup(void){
-	
+
 	struct regi set[100] = {
 		{"おにぎり", 150, 30},
 		{"緑茶", 100, 20},
@@ -57,7 +57,7 @@ void setup(void){
 }
 
 void accounting(int a){
-	
+
 	if(a==1){
 		printf("1!\n");
 	}
@@ -98,7 +98,7 @@ void format(int f){
 	FILE *format_setup;
 
 	format_setup = fopen("setup.txt", "w");
-	fprintf(formar_file, "0\n");
+	fprintf(format_setup, "0\n");
 	fclose(format_setup);
 }
 
@@ -136,7 +136,7 @@ int main(void)
 				break;
 			default:
 				printf("エラー\n");
-				break;
+				exit(0);
 		}
 	}
 
