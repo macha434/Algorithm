@@ -20,7 +20,13 @@ int check_setup(void){
 	}
 	fscanf(check_setupfile, "%d", &check);
 	fclose(check_setupfile);
+<<<<<<< HEAD
 	
+=======
+
+	printf("%d",check);
+
+>>>>>>> 09f034973e3eda97c26706f6bcab51e143561779
 	if(check==0){
 		return 0;
 	}else if(check==1){
@@ -32,8 +38,13 @@ int check_setup(void){
 }
 
 void setup(void){
+<<<<<<< HEAD
 	
 	struct regi set[] = {
+=======
+
+	struct regi set[100] = {
+>>>>>>> 09f034973e3eda97c26706f6bcab51e143561779
 		{"おにぎり", 150, 30},
 		{"緑茶", 100, 20},
 		{"ガム", 50, 10},
@@ -54,7 +65,7 @@ void setup(void){
 }
 
 void accounting(int a){
-	
+
 	if(a==1){
 		printf("1!\n");
 	}
@@ -132,7 +143,7 @@ int main(void)
 				break;
 			default:
 				printf("エラー\n");
-				break;
+				exit(0);
 		}
 	}
 
