@@ -13,7 +13,6 @@ int check_setup(void){
 
 	check_setupfile = fopen("setup.txt", "r");
 	if(check_setupfile == NULL) {
-		printf("OK\n");
 		check_setupfile = fopen("setup.txt", "w");
 		fprintf(check_setupfile, "0\n");
 		fclose(check_setupfile);
@@ -21,8 +20,6 @@ int check_setup(void){
 	}
 	fscanf(check_setupfile, "%d", &check);
 	fclose(check_setupfile);
-
-	printf("%d",check);
 	
 	if(check==0){
 		return 0;
@@ -36,10 +33,10 @@ int check_setup(void){
 
 void setup(void){
 	
-	struct regi set[100] = {
+	struct regi set[] = {
 		{"おにぎり", 150, 30},
 		{"緑茶", 100, 20},
-		{"チョコレート", 120, 15}
+		{"ガム", 50, 10},
 	};
 
 	FILE *fpw = fopen("struct.dat", "wb");
@@ -98,7 +95,7 @@ void format(int f){
 	FILE *format_setup;
 
 	format_setup = fopen("setup.txt", "w");
-	fprintf(formar_file, "0\n");
+	fprintf(format_setup, "0\n");
 	fclose(format_setup);
 }
 
@@ -110,7 +107,6 @@ int main(void)
 
 	check_num=check_setup();
 	if(check_num==0){
-		printf("OK2\n");
 		setup();
 	}
 
