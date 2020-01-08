@@ -36,9 +36,10 @@ int main(){
     struct money mon[8];
 
     head = (struct data *) malloc (sizeof (struct data));
+    head -> next = (struct data *) malloc (sizeof (struct data));
 
-    product = head;
-    tail = head;
+    product = head -> next;
+    tail = product;
 
     Check_setup(product, mon);
 
@@ -154,10 +155,25 @@ struct data *Product_Add(struct data *product){
     int stock;
     char name[20];
     int i;
-    struct data *head = product ;
-    struct data *tail;
+struct data *head = product;
+    printf("Input Product Name : ");
+    scanf("%s", name);
 
-    while (1){
+    printf("Input Product Value : ");
+    scanf("%d", &price);
+
+    printf("Input Value of Stock : ");
+    scanf("%d", &stock);
+
+    product ->  price = price;
+    strcpy(product -> name, name);
+    product -> stock = stock;
+
+    printf("Continue ? 1.yes 2.no : ");
+    scanf("%d", &i);
+    printf("\n");
+
+    while (i != 2){
 
         product -> next = (struct data *) malloc (sizeof (struct data));
         product = product -> next;
@@ -179,16 +195,13 @@ struct data *Product_Add(struct data *product){
         scanf("%d", &i);
         printf("\n");
 
-        if (i == 2) break;
     }
 
     product -> next = NULL;
 
-    Print_Product(head -> next);
+    Print_Product(head);
 
-    tail = product;
-
-    return tail;
+    return product;
 }
 
 void Price_Change(){
