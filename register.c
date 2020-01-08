@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
+#include "eulid.h"
 
 void Check_setup();
 void Set_Up();
