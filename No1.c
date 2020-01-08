@@ -5,6 +5,7 @@
 
 void Check_setup();
 void Set_Up();
+void stock();
 void Register();
 struct data *Product_Add();
 void Price_Change();
